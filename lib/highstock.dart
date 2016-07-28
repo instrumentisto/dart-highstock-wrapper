@@ -1,16 +1,28 @@
+/// Highstock chart wrapper library.
+@JS()
 library highstock;
 
-import 'package:uuid/uuid.dart';
+import 'dart:html' hide Navigator;
 import 'dart:js';
+
 import 'package:js/js.dart';
-import 'dart:html';
+import 'package:uuid/uuid.dart';
+
 
 @JS('Date.UTC')
 external DateTime dateUTC (year, month, day);
 
+@JS()
+class Highcharts {
+  external static dynamic get charts;
+
+  external static void setOptions(StockChartOptions options);
+}
+
 @JS('Highcharts.StockChart')
 class HighstockChart {
   external HighstockChart (StockChartOptions options);
+  external RangeSelector get rangeSelector;
   external List<Series> get series;
   external List<Axis> get axes;
   external bool get alignTicks;
@@ -330,6 +342,9 @@ class Axis extends OptionsObject {
 class StockChartOptions extends OptionsObject {
   external factory StockChartOptions ();
 
+  external L10NOptions get lang;
+  external void set lang (L10NOptions a_lang);
+
   external Chart get chart;
   external void set chart (Chart a_chart);
 
@@ -378,9 +393,11 @@ class StockChartOptions extends OptionsObject {
   external XAxis get xAxis;
   external void set xAxis (XAxis a_xAxis);
 
-  external YAxis get yAxis;
-  external void set yAxis (YAxis a_yAxis);
+  external dynamic get yAxis;
+  external void set yAxis (List<YAxis> a_yAxis);
 
+  external Navigator get navigator;
+  external void set navigator (Navigator a_navigator);
 }
 
 @JS()
@@ -1532,8 +1549,8 @@ class Navigator extends OptionsObject {
 
       }</pre>
    */
-  external JsObject get series;
-  external void set series (JsObject a_series);
+  external Series get series;
+  external void set series (Series a_series);
   /**
    * Options for the navigator X axis. Available options are the same as any X axis, documented at <a class="internal" href="#xAxis">xAxis</a>. Default series options for the navigator xAxis are:
 
@@ -1957,8 +1974,8 @@ class PlotOptionsArea extends OptionsObject {
   /**
    * A configuration object for the tooltip rendering of each single series. Properties are inherited from <a href="#tooltip">tooltip</a>, but only the following properties can be defined on a series level.
    */
-  external JsObject get tooltip;
-  external void set tooltip (JsObject a_tooltip);
+  external Tooltip get tooltip;
+  external void set tooltip (Tooltip a_tooltip);
   /**
    * Whether the whole area or just the line should respond to mouseover tooltips and other mouse or touch events.
    */
@@ -2045,8 +2062,8 @@ class PlotOptionsAreaDataGrouping extends OptionsObject {
 
       <p>For each of these array definitions, the first item is the format used when the active time span is one unit. For instance, if the current data applies to one week, the first item of the week array is used. The second and third items are used when the active time span is more than two units. For instance, if the current data applies to two weeks, the second and third item of the week array are used, and applied to the start and end date of the time span.</p>
    */
-  external JsObject get dateTimeLabelFormats;
-  external void set dateTimeLabelFormats (JsObject a_dateTimeLabelFormats);
+  external DateTimeLabelFormatOptions get dateTimeLabelFormats;
+  external void set dateTimeLabelFormats (DateTimeLabelFormatOptions a_dateTimeLabelFormats);
   /**
    * Enable or disable data grouping.
    */
@@ -2680,8 +2697,8 @@ class PlotOptionsAreaTooltip extends OptionsObject {
 
       </p>
    */
-  external JsObject get dateTimeLabelFormats;
-  external void set dateTimeLabelFormats (JsObject a_dateTimeLabelFormats);
+  external DateTimeLabelFormatOptions get dateTimeLabelFormats;
+  external void set dateTimeLabelFormats (DateTimeLabelFormatOptions a_dateTimeLabelFormats);
   /**
    * <p>Whether the tooltip should follow the mouse as it moves across columns, pie slices and other point types with an extent. By default it behaves this way for scatter, bubble and pie series by override in the <code>plotOptions</code> for those series types. </p>
 
@@ -3025,8 +3042,8 @@ class PlotOptionsArearange extends OptionsObject {
   /**
    * A configuration object for the tooltip rendering of each single series. Properties are inherited from <a href="#tooltip">tooltip</a>, but only the following properties can be defined on a series level.
    */
-  external JsObject get tooltip;
-  external void set tooltip (JsObject a_tooltip);
+  external Tooltip get tooltip;
+  external void set tooltip (Tooltip a_tooltip);
   /**
    * Whether the whole area or just the line should respond to mouseover tooltips and other mouse or touch events.
    */
@@ -3113,8 +3130,8 @@ class PlotOptionsArearangeDataGrouping extends OptionsObject {
 
       <p>For each of these array definitions, the first item is the format used when the active time span is one unit. For instance, if the current data applies to one week, the first item of the week array is used. The second and third items are used when the active time span is more than two units. For instance, if the current data applies to two weeks, the second and third item of the week array are used, and applied to the start and end date of the time span.</p>
    */
-  external JsObject get dateTimeLabelFormats;
-  external void set dateTimeLabelFormats (JsObject a_dateTimeLabelFormats);
+  external DateTimeLabelFormatOptions get dateTimeLabelFormats;
+  external void set dateTimeLabelFormats (DateTimeLabelFormatOptions a_dateTimeLabelFormats);
   /**
    * Enable or disable data grouping.
    */
@@ -3613,8 +3630,8 @@ class PlotOptionsArearangeTooltip extends OptionsObject {
 
       </p>
    */
-  external JsObject get dateTimeLabelFormats;
-  external void set dateTimeLabelFormats (JsObject a_dateTimeLabelFormats);
+  external DateTimeLabelFormatOptions get dateTimeLabelFormats;
+  external void set dateTimeLabelFormats (DateTimeLabelFormatOptions a_dateTimeLabelFormats);
   /**
    * <p>Whether the tooltip should follow the mouse as it moves across columns, pie slices and other point types with an extent. By default it behaves this way for scatter, bubble and pie series by override in the <code>plotOptions</code> for those series types. </p>
 
@@ -3972,8 +3989,8 @@ class PlotOptionsAreaspline extends OptionsObject {
   /**
    * A configuration object for the tooltip rendering of each single series. Properties are inherited from <a href="#tooltip">tooltip</a>, but only the following properties can be defined on a series level.
    */
-  external JsObject get tooltip;
-  external void set tooltip (JsObject a_tooltip);
+  external Tooltip get tooltip;
+  external void set tooltip (Tooltip a_tooltip);
   /**
    * Whether the whole area or just the line should respond to mouseover tooltips and other mouse or touch events.
    */
@@ -4060,8 +4077,8 @@ class PlotOptionsAreasplineDataGrouping extends OptionsObject {
 
       <p>For each of these array definitions, the first item is the format used when the active time span is one unit. For instance, if the current data applies to one week, the first item of the week array is used. The second and third items are used when the active time span is more than two units. For instance, if the current data applies to two weeks, the second and third item of the week array are used, and applied to the start and end date of the time span.</p>
    */
-  external JsObject get dateTimeLabelFormats;
-  external void set dateTimeLabelFormats (JsObject a_dateTimeLabelFormats);
+  external DateTimeLabelFormatOptions get dateTimeLabelFormats;
+  external void set dateTimeLabelFormats (DateTimeLabelFormatOptions a_dateTimeLabelFormats);
   /**
    * Enable or disable data grouping.
    */
@@ -4695,8 +4712,8 @@ class PlotOptionsAreasplineTooltip extends OptionsObject {
 
       </p>
    */
-  external JsObject get dateTimeLabelFormats;
-  external void set dateTimeLabelFormats (JsObject a_dateTimeLabelFormats);
+  external DateTimeLabelFormatOptions get dateTimeLabelFormats;
+  external void set dateTimeLabelFormats (DateTimeLabelFormatOptions a_dateTimeLabelFormats);
   /**
    * <p>Whether the tooltip should follow the mouse as it moves across columns, pie slices and other point types with an extent. By default it behaves this way for scatter, bubble and pie series by override in the <code>plotOptions</code> for those series types. </p>
 
@@ -5035,8 +5052,8 @@ class PlotOptionsAreasplinerange extends OptionsObject {
   /**
    * A configuration object for the tooltip rendering of each single series. Properties are inherited from <a href="#tooltip">tooltip</a>, but only the following properties can be defined on a series level.
    */
-  external JsObject get tooltip;
-  external void set tooltip (JsObject a_tooltip);
+  external Tooltip get tooltip;
+  external void set tooltip (Tooltip a_tooltip);
   /**
    * Whether the whole area or just the line should respond to mouseover tooltips and other mouse or touch events.
    */
@@ -5123,8 +5140,8 @@ class PlotOptionsAreasplinerangeDataGrouping extends OptionsObject {
 
       <p>For each of these array definitions, the first item is the format used when the active time span is one unit. For instance, if the current data applies to one week, the first item of the week array is used. The second and third items are used when the active time span is more than two units. For instance, if the current data applies to two weeks, the second and third item of the week array are used, and applied to the start and end date of the time span.</p>
    */
-  external JsObject get dateTimeLabelFormats;
-  external void set dateTimeLabelFormats (JsObject a_dateTimeLabelFormats);
+  external DateTimeLabelFormatOptions get dateTimeLabelFormats;
+  external void set dateTimeLabelFormats (DateTimeLabelFormatOptions a_dateTimeLabelFormats);
   /**
    * Enable or disable data grouping.
    */
@@ -5623,8 +5640,8 @@ class PlotOptionsAreasplinerangeTooltip extends OptionsObject {
 
       </p>
    */
-  external JsObject get dateTimeLabelFormats;
-  external void set dateTimeLabelFormats (JsObject a_dateTimeLabelFormats);
+  external DateTimeLabelFormatOptions get dateTimeLabelFormats;
+  external void set dateTimeLabelFormats (DateTimeLabelFormatOptions a_dateTimeLabelFormats);
   /**
    * <p>Whether the tooltip should follow the mouse as it moves across columns, pie slices and other point types with an extent. By default it behaves this way for scatter, bubble and pie series by override in the <code>plotOptions</code> for those series types. </p>
 
@@ -5937,8 +5954,8 @@ class PlotOptionsCandlestick extends OptionsObject {
   /**
    * A configuration object for the tooltip rendering of each single series. Properties are inherited from <a href="#tooltip">tooltip</a>, but only the following properties can be defined on a series level.
    */
-  external JsObject get tooltip;
-  external void set tooltip (JsObject a_tooltip);
+  external Tooltip get tooltip;
+  external void set tooltip (Tooltip a_tooltip);
   /**
    * When a series contains a data array that is longer than this, only one dimensional arrays of numbers,
       or two dimensional arrays with x and y values are allowed. Also, only the first
@@ -6030,8 +6047,8 @@ class PlotOptionsCandlestickDataGrouping extends OptionsObject {
 
       <p>For each of these array definitions, the first item is the format used when the active time span is one unit. For instance, if the current data applies to one week, the first item of the week array is used. The second and third items are used when the active time span is more than two units. For instance, if the current data applies to two weeks, the second and third item of the week array are used, and applied to the start and end date of the time span.</p>
    */
-  external JsObject get dateTimeLabelFormats;
-  external void set dateTimeLabelFormats (JsObject a_dateTimeLabelFormats);
+  external DateTimeLabelFormatOptions get dateTimeLabelFormats;
+  external void set dateTimeLabelFormats (DateTimeLabelFormatOptions a_dateTimeLabelFormats);
   /**
    * Enable or disable data grouping.
    */
@@ -6457,8 +6474,8 @@ class PlotOptionsCandlestickTooltip extends OptionsObject {
 
       </p>
    */
-  external JsObject get dateTimeLabelFormats;
-  external void set dateTimeLabelFormats (JsObject a_dateTimeLabelFormats);
+  external DateTimeLabelFormatOptions get dateTimeLabelFormats;
+  external void set dateTimeLabelFormats (DateTimeLabelFormatOptions a_dateTimeLabelFormats);
   /**
    * <p>Whether the tooltip should follow the mouse as it moves across columns, pie slices and other point types with an extent. By default it behaves this way for scatter, bubble and pie series by override in the <code>plotOptions</code> for those series types. </p>
 
@@ -6801,8 +6818,8 @@ class PlotOptionsColumn extends OptionsObject {
   /**
    * A configuration object for the tooltip rendering of each single series. Properties are inherited from <a href="#tooltip">tooltip</a>, but only the following properties can be defined on a series level.
    */
-  external JsObject get tooltip;
-  external void set tooltip (JsObject a_tooltip);
+  external Tooltip get tooltip;
+  external void set tooltip (Tooltip a_tooltip);
   /**
    * When a series contains a data array that is longer than this, only one dimensional arrays of numbers,
       or two dimensional arrays with x and y values are allowed. Also, only the first
@@ -6884,8 +6901,8 @@ class PlotOptionsColumnDataGrouping extends OptionsObject {
 
       <p>For each of these array definitions, the first item is the format used when the active time span is one unit. For instance, if the current data applies to one week, the first item of the week array is used. The second and third items are used when the active time span is more than two units. For instance, if the current data applies to two weeks, the second and third item of the week array are used, and applied to the start and end date of the time span.</p>
    */
-  external JsObject get dateTimeLabelFormats;
-  external void set dateTimeLabelFormats (JsObject a_dateTimeLabelFormats);
+  external DateTimeLabelFormatOptions get dateTimeLabelFormats;
+  external void set dateTimeLabelFormats (DateTimeLabelFormatOptions a_dateTimeLabelFormats);
   /**
    * Enable or disable data grouping.
    */
@@ -7306,8 +7323,8 @@ class PlotOptionsColumnTooltip extends OptionsObject {
 
       </p>
    */
-  external JsObject get dateTimeLabelFormats;
-  external void set dateTimeLabelFormats (JsObject a_dateTimeLabelFormats);
+  external DateTimeLabelFormatOptions get dateTimeLabelFormats;
+  external void set dateTimeLabelFormats (DateTimeLabelFormatOptions a_dateTimeLabelFormats);
   /**
    * <p>Whether the tooltip should follow the mouse as it moves across columns, pie slices and other point types with an extent. By default it behaves this way for scatter, bubble and pie series by override in the <code>plotOptions</code> for those series types. </p>
 
@@ -7629,8 +7646,8 @@ class PlotOptionsColumnrange extends OptionsObject {
   /**
    * A configuration object for the tooltip rendering of each single series. Properties are inherited from <a href="#tooltip">tooltip</a>, but only the following properties can be defined on a series level.
    */
-  external JsObject get tooltip;
-  external void set tooltip (JsObject a_tooltip);
+  external Tooltip get tooltip;
+  external void set tooltip (Tooltip a_tooltip);
   /**
    * When a series contains a data array that is longer than this, only one dimensional arrays of numbers,
       or two dimensional arrays with x and y values are allowed. Also, only the first
@@ -7712,8 +7729,8 @@ class PlotOptionsColumnrangeDataGrouping extends OptionsObject {
 
       <p>For each of these array definitions, the first item is the format used when the active time span is one unit. For instance, if the current data applies to one week, the first item of the week array is used. The second and third items are used when the active time span is more than two units. For instance, if the current data applies to two weeks, the second and third item of the week array are used, and applied to the start and end date of the time span.</p>
    */
-  external JsObject get dateTimeLabelFormats;
-  external void set dateTimeLabelFormats (JsObject a_dateTimeLabelFormats);
+  external DateTimeLabelFormatOptions get dateTimeLabelFormats;
+  external void set dateTimeLabelFormats (DateTimeLabelFormatOptions a_dateTimeLabelFormats);
   /**
    * Enable or disable data grouping.
    */
@@ -8144,8 +8161,8 @@ class PlotOptionsColumnrangeTooltip extends OptionsObject {
 
       </p>
    */
-  external JsObject get dateTimeLabelFormats;
-  external void set dateTimeLabelFormats (JsObject a_dateTimeLabelFormats);
+  external DateTimeLabelFormatOptions get dateTimeLabelFormats;
+  external void set dateTimeLabelFormats (DateTimeLabelFormatOptions a_dateTimeLabelFormats);
   /**
    * <p>Whether the tooltip should follow the mouse as it moves across columns, pie slices and other point types with an extent. By default it behaves this way for scatter, bubble and pie series by override in the <code>plotOptions</code> for those series types. </p>
 
@@ -8410,8 +8427,8 @@ class PlotOptionsFlags extends OptionsObject {
   /**
    * Specific tooltip options for flag series. Flag series tooltips are different from most other types in that a flag doesn't have a data value, so the tooltip rather displays the <code>text</code> option for each point.
    */
-  external JsObject get tooltip;
-  external void set tooltip (JsObject a_tooltip);
+  external Tooltip get tooltip;
+  external void set tooltip (Tooltip a_tooltip);
   /**
    * Whether to use HTML to render the flag texts. Using HTML allows for advanced formatting, images and reliable bi-directional text rendering. Note that exported images won't respect the HTML, and that HTML won't respect Z-index settings.
    */
@@ -8812,8 +8829,8 @@ class PlotOptionsFlagsTooltip extends OptionsObject {
 
       </p>
    */
-  external JsObject get dateTimeLabelFormats;
-  external void set dateTimeLabelFormats (JsObject a_dateTimeLabelFormats);
+  external DateTimeLabelFormatOptions get dateTimeLabelFormats;
+  external void set dateTimeLabelFormats (DateTimeLabelFormatOptions a_dateTimeLabelFormats);
   /**
    * <p>Whether the tooltip should follow the mouse as it moves across columns, pie slices and other point types with an extent. By default it behaves this way for scatter, bubble and pie series by override in the <code>plotOptions</code> for those series types. </p>
 
@@ -9145,8 +9162,8 @@ class PlotOptionsLine extends OptionsObject {
   /**
    * A configuration object for the tooltip rendering of each single series. Properties are inherited from <a href="#tooltip">tooltip</a>, but only the following properties can be defined on a series level.
    */
-  external JsObject get tooltip;
-  external void set tooltip (JsObject a_tooltip);
+  external Tooltip get tooltip;
+  external void set tooltip (Tooltip a_tooltip);
   /**
    * When a series contains a data array that is longer than this, only one dimensional arrays of numbers,
       or two dimensional arrays with x and y values are allowed. Also, only the first
@@ -9228,8 +9245,8 @@ class PlotOptionsLineDataGrouping extends OptionsObject {
 
       <p>For each of these array definitions, the first item is the format used when the active time span is one unit. For instance, if the current data applies to one week, the first item of the week array is used. The second and third items are used when the active time span is more than two units. For instance, if the current data applies to two weeks, the second and third item of the week array are used, and applied to the start and end date of the time span.</p>
    */
-  external JsObject get dateTimeLabelFormats;
-  external void set dateTimeLabelFormats (JsObject a_dateTimeLabelFormats);
+  external DateTimeLabelFormatOptions get dateTimeLabelFormats;
+  external void set dateTimeLabelFormats (DateTimeLabelFormatOptions a_dateTimeLabelFormats);
   /**
    * Enable or disable data grouping.
    */
@@ -9863,8 +9880,8 @@ class PlotOptionsLineTooltip extends OptionsObject {
 
       </p>
    */
-  external JsObject get dateTimeLabelFormats;
-  external void set dateTimeLabelFormats (JsObject a_dateTimeLabelFormats);
+  external DateTimeLabelFormatOptions get dateTimeLabelFormats;
+  external void set dateTimeLabelFormats (DateTimeLabelFormatOptions a_dateTimeLabelFormats);
   /**
    * <p>Whether the tooltip should follow the mouse as it moves across columns, pie slices and other point types with an extent. By default it behaves this way for scatter, bubble and pie series by override in the <code>plotOptions</code> for those series types. </p>
 
@@ -10190,8 +10207,8 @@ class PlotOptionsOhlc extends OptionsObject {
   /**
    * A configuration object for the tooltip rendering of each single series. Properties are inherited from <a href="#tooltip">tooltip</a>, but only the following properties can be defined on a series level.
    */
-  external JsObject get tooltip;
-  external void set tooltip (JsObject a_tooltip);
+  external Tooltip get tooltip;
+  external void set tooltip (Tooltip a_tooltip);
   /**
    * When a series contains a data array that is longer than this, only one dimensional arrays of numbers,
       or two dimensional arrays with x and y values are allowed. Also, only the first
@@ -10273,8 +10290,8 @@ class PlotOptionsOhlcDataGrouping extends OptionsObject {
 
       <p>For each of these array definitions, the first item is the format used when the active time span is one unit. For instance, if the current data applies to one week, the first item of the week array is used. The second and third items are used when the active time span is more than two units. For instance, if the current data applies to two weeks, the second and third item of the week array are used, and applied to the start and end date of the time span.</p>
    */
-  external JsObject get dateTimeLabelFormats;
-  external void set dateTimeLabelFormats (JsObject a_dateTimeLabelFormats);
+  external DateTimeLabelFormatOptions get dateTimeLabelFormats;
+  external void set dateTimeLabelFormats (DateTimeLabelFormatOptions a_dateTimeLabelFormats);
   /**
    * Enable or disable data grouping.
    */
@@ -10700,8 +10717,8 @@ class PlotOptionsOhlcTooltip extends OptionsObject {
 
       </p>
    */
-  external JsObject get dateTimeLabelFormats;
-  external void set dateTimeLabelFormats (JsObject a_dateTimeLabelFormats);
+  external DateTimeLabelFormatOptions get dateTimeLabelFormats;
+  external void set dateTimeLabelFormats (DateTimeLabelFormatOptions a_dateTimeLabelFormats);
   /**
    * <p>Whether the tooltip should follow the mouse as it moves across columns, pie slices and other point types with an extent. By default it behaves this way for scatter, bubble and pie series by override in the <code>plotOptions</code> for those series types. </p>
 
@@ -11011,8 +11028,8 @@ class PlotOptionsPolygon extends OptionsObject {
   /**
    * A configuration object for the tooltip rendering of each single series. Properties are inherited from <a class="internal">#tooltip</a>. Overridable properties are <code>headerFormat</code>, <code>pointFormat</code>, <code>yDecimals</code>, <code>xDateFormat</code>, <code>yPrefix</code> and <code>ySuffix</code>.  Unlike other series, in a scatter plot the series.name by default shows in the headerFormat  and poin.x and point.y in the pointFormat.
    */
-  external JsObject get tooltip;
-  external void set tooltip (JsObject a_tooltip);
+  external Tooltip get tooltip;
+  external void set tooltip (Tooltip a_tooltip);
   /**
    * When a series contains a data array that is longer than this, only one dimensional arrays of numbers,
       or two dimensional arrays with x and y values are allowed. Also, only the first
@@ -11094,8 +11111,8 @@ class PlotOptionsPolygonDataGrouping extends OptionsObject {
 
       <p>For each of these array definitions, the first item is the format used when the active time span is one unit. For instance, if the current data applies to one week, the first item of the week array is used. The second and third items are used when the active time span is more than two units. For instance, if the current data applies to two weeks, the second and third item of the week array are used, and applied to the start and end date of the time span.</p>
    */
-  external JsObject get dateTimeLabelFormats;
-  external void set dateTimeLabelFormats (JsObject a_dateTimeLabelFormats);
+  external DateTimeLabelFormatOptions get dateTimeLabelFormats;
+  external void set dateTimeLabelFormats (DateTimeLabelFormatOptions a_dateTimeLabelFormats);
   /**
    * Enable or disable data grouping.
    */
@@ -11949,8 +11966,8 @@ class PlotOptionsScatter extends OptionsObject {
   /**
    * A configuration object for the tooltip rendering of each single series. Properties are inherited from <a class="internal">#tooltip</a>. Overridable properties are <code>headerFormat</code>, <code>pointFormat</code>, <code>yDecimals</code>, <code>xDateFormat</code>, <code>yPrefix</code> and <code>ySuffix</code>.  Unlike other series, in a scatter plot the series.name by default shows in the headerFormat  and poin.x and point.y in the pointFormat.
    */
-  external JsObject get tooltip;
-  external void set tooltip (JsObject a_tooltip);
+  external Tooltip get tooltip;
+  external void set tooltip (Tooltip a_tooltip);
   /**
    * When a series contains a data array that is longer than this, only one dimensional arrays of numbers,
       or two dimensional arrays with x and y values are allowed. Also, only the first
@@ -12032,8 +12049,8 @@ class PlotOptionsScatterDataGrouping extends OptionsObject {
 
       <p>For each of these array definitions, the first item is the format used when the active time span is one unit. For instance, if the current data applies to one week, the first item of the week array is used. The second and third items are used when the active time span is more than two units. For instance, if the current data applies to two weeks, the second and third item of the week array are used, and applied to the start and end date of the time span.</p>
    */
-  external JsObject get dateTimeLabelFormats;
-  external void set dateTimeLabelFormats (JsObject a_dateTimeLabelFormats);
+  external DateTimeLabelFormatOptions get dateTimeLabelFormats;
+  external void set dateTimeLabelFormats (DateTimeLabelFormatOptions a_dateTimeLabelFormats);
   /**
    * Enable or disable data grouping.
    */
@@ -12911,8 +12928,8 @@ class PlotOptionsSeries extends Series {
   /**
    * A configuration object for the tooltip rendering of each single series. Properties are inherited from <a href="#tooltip">tooltip</a>, but only the following properties can be defined on a series level.
    */
-  external JsObject get tooltip;
-  external void set tooltip (JsObject a_tooltip);
+  external Tooltip get tooltip;
+  external void set tooltip (Tooltip a_tooltip);
   /**
    * When a series contains a data array that is longer than this, only one dimensional arrays of numbers,
       or two dimensional arrays with x and y values are allowed. Also, only the first
@@ -12994,8 +13011,8 @@ class PlotOptionsSeriesDataGrouping extends OptionsObject {
 
       <p>For each of these array definitions, the first item is the format used when the active time span is one unit. For instance, if the current data applies to one week, the first item of the week array is used. The second and third items are used when the active time span is more than two units. For instance, if the current data applies to two weeks, the second and third item of the week array are used, and applied to the start and end date of the time span.</p>
    */
-  external JsObject get dateTimeLabelFormats;
-  external void set dateTimeLabelFormats (JsObject a_dateTimeLabelFormats);
+  external DateTimeLabelFormatOptions get dateTimeLabelFormats;
+  external void set dateTimeLabelFormats (DateTimeLabelFormatOptions a_dateTimeLabelFormats);
   /**
    * Enable or disable data grouping.
    */
@@ -13629,8 +13646,8 @@ class PlotOptionsSeriesTooltip extends OptionsObject {
 
       </p>
    */
-  external JsObject get dateTimeLabelFormats;
-  external void set dateTimeLabelFormats (JsObject a_dateTimeLabelFormats);
+  external DateTimeLabelFormatOptions get dateTimeLabelFormats;
+  external void set dateTimeLabelFormats (DateTimeLabelFormatOptions a_dateTimeLabelFormats);
   /**
    * <p>Whether the tooltip should follow the mouse as it moves across columns, pie slices and other point types with an extent. By default it behaves this way for scatter, bubble and pie series by override in the <code>plotOptions</code> for those series types. </p>
 
@@ -13973,8 +13990,8 @@ class PlotOptionsSpline extends OptionsObject {
   /**
    * A configuration object for the tooltip rendering of each single series. Properties are inherited from <a href="#tooltip">tooltip</a>, but only the following properties can be defined on a series level.
    */
-  external JsObject get tooltip;
-  external void set tooltip (JsObject a_tooltip);
+  external Tooltip get tooltip;
+  external void set tooltip (Tooltip a_tooltip);
   /**
    * When a series contains a data array that is longer than this, only one dimensional arrays of numbers,
       or two dimensional arrays with x and y values are allowed. Also, only the first
@@ -14056,8 +14073,8 @@ class PlotOptionsSplineDataGrouping extends OptionsObject {
 
       <p>For each of these array definitions, the first item is the format used when the active time span is one unit. For instance, if the current data applies to one week, the first item of the week array is used. The second and third items are used when the active time span is more than two units. For instance, if the current data applies to two weeks, the second and third item of the week array are used, and applied to the start and end date of the time span.</p>
    */
-  external JsObject get dateTimeLabelFormats;
-  external void set dateTimeLabelFormats (JsObject a_dateTimeLabelFormats);
+  external DateTimeLabelFormatOptions get dateTimeLabelFormats;
+  external void set dateTimeLabelFormats (DateTimeLabelFormatOptions a_dateTimeLabelFormats);
   /**
    * Enable or disable data grouping.
    */
@@ -14691,8 +14708,8 @@ class PlotOptionsSplineTooltip extends OptionsObject {
 
       </p>
    */
-  external JsObject get dateTimeLabelFormats;
-  external void set dateTimeLabelFormats (JsObject a_dateTimeLabelFormats);
+  external DateTimeLabelFormatOptions get dateTimeLabelFormats;
+  external void set dateTimeLabelFormats (DateTimeLabelFormatOptions a_dateTimeLabelFormats);
   /**
    * <p>Whether the tooltip should follow the mouse as it moves across columns, pie slices and other point types with an extent. By default it behaves this way for scatter, bubble and pie series by override in the <code>plotOptions</code> for those series types. </p>
 
@@ -14779,6 +14796,9 @@ class PlotOptionsSplineZones extends OptionsObject {
 @anonymous
 class RangeSelector extends OptionsObject {
   external factory RangeSelector ();
+
+  external void clickButton(int index, bool redraw);
+
   /**
    * Whether to enable all buttons from the start. By default buttons are only enabled if the corresponding time range exists on the X axis, but enabling all buttons allows for dynamically loading different time ranges.
    */
@@ -14796,8 +14816,8 @@ class RangeSelector extends OptionsObject {
 
       <p>The object can also be extended with states, so you can set presentational options for <code>hover</code>, <code>select</code> or <code>disabled</code> button states.</p>
    */
-  external JsObject get buttonTheme;
-  external void set buttonTheme (JsObject a_buttonTheme);
+  external dynamic get buttonTheme;
+  external void set buttonTheme (dynamic a_buttonTheme);
   /**
    * An array of configuration objects for the buttons. The individual options for each item are:
 
@@ -15621,8 +15641,8 @@ class AreaSeries extends Series {
   /**
    * A configuration object for the tooltip rendering of each single series. Properties are inherited from <a href="#tooltip">tooltip</a>, but only the following properties can be defined on a series level.
    */
-  external JsObject get tooltip;
-  external void set tooltip (JsObject a_tooltip);
+  external Tooltip get tooltip;
+  external void set tooltip (Tooltip a_tooltip);
   /**
    * Whether the whole area or just the line should respond to mouseover tooltips and other mouse or touch events.
    */
@@ -15999,8 +16019,8 @@ class AreaSeriesDataGrouping extends OptionsObject {
 
       <p>For each of these array definitions, the first item is the format used when the active time span is one unit. For instance, if the current data applies to one week, the first item of the week array is used. The second and third items are used when the active time span is more than two units. For instance, if the current data applies to two weeks, the second and third item of the week array are used, and applied to the start and end date of the time span.</p>
    */
-  external JsObject get dateTimeLabelFormats;
-  external void set dateTimeLabelFormats (JsObject a_dateTimeLabelFormats);
+  external DateTimeLabelFormatOptions get dateTimeLabelFormats;
+  external void set dateTimeLabelFormats (DateTimeLabelFormatOptions a_dateTimeLabelFormats);
   /**
    * Enable or disable data grouping.
    */
@@ -16634,8 +16654,8 @@ class AreaSeriesTooltip extends OptionsObject {
 
       </p>
    */
-  external JsObject get dateTimeLabelFormats;
-  external void set dateTimeLabelFormats (JsObject a_dateTimeLabelFormats);
+  external DateTimeLabelFormatOptions get dateTimeLabelFormats;
+  external void set dateTimeLabelFormats (DateTimeLabelFormatOptions a_dateTimeLabelFormats);
   /**
    * <p>Whether the tooltip should follow the mouse as it moves across columns, pie slices and other point types with an extent. By default it behaves this way for scatter, bubble and pie series by override in the <code>plotOptions</code> for those series types. </p>
 
@@ -17039,8 +17059,8 @@ class ArearangeSeries extends Series {
   /**
    * A configuration object for the tooltip rendering of each single series. Properties are inherited from <a href="#tooltip">tooltip</a>, but only the following properties can be defined on a series level.
    */
-  external JsObject get tooltip;
-  external void set tooltip (JsObject a_tooltip);
+  external Tooltip get tooltip;
+  external void set tooltip (Tooltip a_tooltip);
   /**
    * Whether the whole area or just the line should respond to mouseover tooltips and other mouse or touch events.
    */
@@ -17241,8 +17261,8 @@ class ArearangeSeriesDataGrouping extends OptionsObject {
 
       <p>For each of these array definitions, the first item is the format used when the active time span is one unit. For instance, if the current data applies to one week, the first item of the week array is used. The second and third items are used when the active time span is more than two units. For instance, if the current data applies to two weeks, the second and third item of the week array are used, and applied to the start and end date of the time span.</p>
    */
-  external JsObject get dateTimeLabelFormats;
-  external void set dateTimeLabelFormats (JsObject a_dateTimeLabelFormats);
+  external DateTimeLabelFormatOptions get dateTimeLabelFormats;
+  external void set dateTimeLabelFormats (DateTimeLabelFormatOptions a_dateTimeLabelFormats);
   /**
    * Enable or disable data grouping.
    */
@@ -17741,8 +17761,8 @@ class ArearangeSeriesTooltip extends OptionsObject {
 
       </p>
    */
-  external JsObject get dateTimeLabelFormats;
-  external void set dateTimeLabelFormats (JsObject a_dateTimeLabelFormats);
+  external DateTimeLabelFormatOptions get dateTimeLabelFormats;
+  external void set dateTimeLabelFormats (DateTimeLabelFormatOptions a_dateTimeLabelFormats);
   /**
    * <p>Whether the tooltip should follow the mouse as it moves across columns, pie slices and other point types with an extent. By default it behaves this way for scatter, bubble and pie series by override in the <code>plotOptions</code> for those series types. </p>
 
@@ -18173,8 +18193,8 @@ class AreasplineSeries extends Series {
   /**
    * A configuration object for the tooltip rendering of each single series. Properties are inherited from <a href="#tooltip">tooltip</a>, but only the following properties can be defined on a series level.
    */
-  external JsObject get tooltip;
-  external void set tooltip (JsObject a_tooltip);
+  external Tooltip get tooltip;
+  external void set tooltip (Tooltip a_tooltip);
   /**
    * Whether the whole area or just the line should respond to mouseover tooltips and other mouse or touch events.
    */
@@ -18551,8 +18571,8 @@ class AreasplineSeriesDataGrouping extends OptionsObject {
 
       <p>For each of these array definitions, the first item is the format used when the active time span is one unit. For instance, if the current data applies to one week, the first item of the week array is used. The second and third items are used when the active time span is more than two units. For instance, if the current data applies to two weeks, the second and third item of the week array are used, and applied to the start and end date of the time span.</p>
    */
-  external JsObject get dateTimeLabelFormats;
-  external void set dateTimeLabelFormats (JsObject a_dateTimeLabelFormats);
+  external DateTimeLabelFormatOptions get dateTimeLabelFormats;
+  external void set dateTimeLabelFormats (DateTimeLabelFormatOptions a_dateTimeLabelFormats);
   /**
    * Enable or disable data grouping.
    */
@@ -19186,8 +19206,8 @@ class AreasplineSeriesTooltip extends OptionsObject {
 
       </p>
    */
-  external JsObject get dateTimeLabelFormats;
-  external void set dateTimeLabelFormats (JsObject a_dateTimeLabelFormats);
+  external DateTimeLabelFormatOptions get dateTimeLabelFormats;
+  external void set dateTimeLabelFormats (DateTimeLabelFormatOptions a_dateTimeLabelFormats);
   /**
    * <p>Whether the tooltip should follow the mouse as it moves across columns, pie slices and other point types with an extent. By default it behaves this way for scatter, bubble and pie series by override in the <code>plotOptions</code> for those series types. </p>
 
@@ -19586,8 +19606,8 @@ class AreasplinerangeSeries extends Series {
   /**
    * A configuration object for the tooltip rendering of each single series. Properties are inherited from <a href="#tooltip">tooltip</a>, but only the following properties can be defined on a series level.
    */
-  external JsObject get tooltip;
-  external void set tooltip (JsObject a_tooltip);
+  external Tooltip get tooltip;
+  external void set tooltip (Tooltip a_tooltip);
   /**
    * Whether the whole area or just the line should respond to mouseover tooltips and other mouse or touch events.
    */
@@ -19788,8 +19808,8 @@ class AreasplinerangeSeriesDataGrouping extends OptionsObject {
 
       <p>For each of these array definitions, the first item is the format used when the active time span is one unit. For instance, if the current data applies to one week, the first item of the week array is used. The second and third items are used when the active time span is more than two units. For instance, if the current data applies to two weeks, the second and third item of the week array are used, and applied to the start and end date of the time span.</p>
    */
-  external JsObject get dateTimeLabelFormats;
-  external void set dateTimeLabelFormats (JsObject a_dateTimeLabelFormats);
+  external DateTimeLabelFormatOptions get dateTimeLabelFormats;
+  external void set dateTimeLabelFormats (DateTimeLabelFormatOptions a_dateTimeLabelFormats);
   /**
    * Enable or disable data grouping.
    */
@@ -20288,8 +20308,8 @@ class AreasplinerangeSeriesTooltip extends OptionsObject {
 
       </p>
    */
-  external JsObject get dateTimeLabelFormats;
-  external void set dateTimeLabelFormats (JsObject a_dateTimeLabelFormats);
+  external DateTimeLabelFormatOptions get dateTimeLabelFormats;
+  external void set dateTimeLabelFormats (DateTimeLabelFormatOptions a_dateTimeLabelFormats);
   /**
    * <p>Whether the tooltip should follow the mouse as it moves across columns, pie slices and other point types with an extent. By default it behaves this way for scatter, bubble and pie series by override in the <code>plotOptions</code> for those series types. </p>
 
@@ -20705,8 +20725,8 @@ class ColumnSeries extends Series {
   /**
    * A configuration object for the tooltip rendering of each single series. Properties are inherited from <a href="#tooltip">tooltip</a>, but only the following properties can be defined on a series level.
    */
-  external JsObject get tooltip;
-  external void set tooltip (JsObject a_tooltip);
+  external Tooltip get tooltip;
+  external void set tooltip (Tooltip a_tooltip);
   /**
    * When a series contains a data array that is longer than this, only one dimensional arrays of numbers,
       or two dimensional arrays with x and y values are allowed. Also, only the first
@@ -20897,8 +20917,8 @@ class ColumnSeriesDataGrouping extends OptionsObject {
 
       <p>For each of these array definitions, the first item is the format used when the active time span is one unit. For instance, if the current data applies to one week, the first item of the week array is used. The second and third items are used when the active time span is more than two units. For instance, if the current data applies to two weeks, the second and third item of the week array are used, and applied to the start and end date of the time span.</p>
    */
-  external JsObject get dateTimeLabelFormats;
-  external void set dateTimeLabelFormats (JsObject a_dateTimeLabelFormats);
+  external DateTimeLabelFormatOptions get dateTimeLabelFormats;
+  external void set dateTimeLabelFormats (DateTimeLabelFormatOptions a_dateTimeLabelFormats);
   /**
    * Enable or disable data grouping.
    */
@@ -21319,8 +21339,8 @@ class ColumnSeriesTooltip extends OptionsObject {
 
       </p>
    */
-  external JsObject get dateTimeLabelFormats;
-  external void set dateTimeLabelFormats (JsObject a_dateTimeLabelFormats);
+  external DateTimeLabelFormatOptions get dateTimeLabelFormats;
+  external void set dateTimeLabelFormats (DateTimeLabelFormatOptions a_dateTimeLabelFormats);
   /**
    * <p>Whether the tooltip should follow the mouse as it moves across columns, pie slices and other point types with an extent. By default it behaves this way for scatter, bubble and pie series by override in the <code>plotOptions</code> for those series types. </p>
 
@@ -21702,8 +21722,8 @@ class ColumnrangeSeries extends Series {
   /**
    * A configuration object for the tooltip rendering of each single series. Properties are inherited from <a href="#tooltip">tooltip</a>, but only the following properties can be defined on a series level.
    */
-  external JsObject get tooltip;
-  external void set tooltip (JsObject a_tooltip);
+  external Tooltip get tooltip;
+  external void set tooltip (Tooltip a_tooltip);
   /**
    * When a series contains a data array that is longer than this, only one dimensional arrays of numbers,
       or two dimensional arrays with x and y values are allowed. Also, only the first
@@ -21899,8 +21919,8 @@ class ColumnrangeSeriesDataGrouping extends OptionsObject {
 
       <p>For each of these array definitions, the first item is the format used when the active time span is one unit. For instance, if the current data applies to one week, the first item of the week array is used. The second and third items are used when the active time span is more than two units. For instance, if the current data applies to two weeks, the second and third item of the week array are used, and applied to the start and end date of the time span.</p>
    */
-  external JsObject get dateTimeLabelFormats;
-  external void set dateTimeLabelFormats (JsObject a_dateTimeLabelFormats);
+  external DateTimeLabelFormatOptions get dateTimeLabelFormats;
+  external void set dateTimeLabelFormats (DateTimeLabelFormatOptions a_dateTimeLabelFormats);
   /**
    * Enable or disable data grouping.
    */
@@ -22331,8 +22351,8 @@ class ColumnrangeSeriesTooltip extends OptionsObject {
 
       </p>
    */
-  external JsObject get dateTimeLabelFormats;
-  external void set dateTimeLabelFormats (JsObject a_dateTimeLabelFormats);
+  external DateTimeLabelFormatOptions get dateTimeLabelFormats;
+  external void set dateTimeLabelFormats (DateTimeLabelFormatOptions a_dateTimeLabelFormats);
   /**
    * <p>Whether the tooltip should follow the mouse as it moves across columns, pie slices and other point types with an extent. By default it behaves this way for scatter, bubble and pie series by override in the <code>plotOptions</code> for those series types. </p>
 
@@ -22642,8 +22662,8 @@ class FlagsSeries extends Series {
   /**
    * Specific tooltip options for flag series. Flag series tooltips are different from most other types in that a flag doesn't have a data value, so the tooltip rather displays the <code>text</code> option for each point.
    */
-  external JsObject get tooltip;
-  external void set tooltip (JsObject a_tooltip);
+  external Tooltip get tooltip;
+  external void set tooltip (Tooltip a_tooltip);
   /**
    * The type of series. Can be one of <code>area</code>, <code>areaspline</code>,
 
@@ -23148,8 +23168,8 @@ class FlagsSeriesTooltip extends OptionsObject {
 
       </p>
    */
-  external JsObject get dateTimeLabelFormats;
-  external void set dateTimeLabelFormats (JsObject a_dateTimeLabelFormats);
+  external DateTimeLabelFormatOptions get dateTimeLabelFormats;
+  external void set dateTimeLabelFormats (DateTimeLabelFormatOptions a_dateTimeLabelFormats);
   /**
    * <p>Whether the tooltip should follow the mouse as it moves across columns, pie slices and other point types with an extent. By default it behaves this way for scatter, bubble and pie series by override in the <code>plotOptions</code> for those series types. </p>
 
@@ -23554,8 +23574,8 @@ class LineSeries extends Series {
   /**
    * A configuration object for the tooltip rendering of each single series. Properties are inherited from <a href="#tooltip">tooltip</a>, but only the following properties can be defined on a series level.
    */
-  external JsObject get tooltip;
-  external void set tooltip (JsObject a_tooltip);
+  external Tooltip get tooltip;
+  external void set tooltip (Tooltip a_tooltip);
   /**
    * When a series contains a data array that is longer than this, only one dimensional arrays of numbers,
       or two dimensional arrays with x and y values are allowed. Also, only the first
@@ -23927,8 +23947,8 @@ class LineSeriesDataGrouping extends OptionsObject {
 
       <p>For each of these array definitions, the first item is the format used when the active time span is one unit. For instance, if the current data applies to one week, the first item of the week array is used. The second and third items are used when the active time span is more than two units. For instance, if the current data applies to two weeks, the second and third item of the week array are used, and applied to the start and end date of the time span.</p>
    */
-  external JsObject get dateTimeLabelFormats;
-  external void set dateTimeLabelFormats (JsObject a_dateTimeLabelFormats);
+  external DateTimeLabelFormatOptions get dateTimeLabelFormats;
+  external void set dateTimeLabelFormats (DateTimeLabelFormatOptions a_dateTimeLabelFormats);
   /**
    * Enable or disable data grouping.
    */
@@ -24562,8 +24582,8 @@ class LineSeriesTooltip extends OptionsObject {
 
       </p>
    */
-  external JsObject get dateTimeLabelFormats;
-  external void set dateTimeLabelFormats (JsObject a_dateTimeLabelFormats);
+  external DateTimeLabelFormatOptions get dateTimeLabelFormats;
+  external void set dateTimeLabelFormats (DateTimeLabelFormatOptions a_dateTimeLabelFormats);
   /**
    * <p>Whether the tooltip should follow the mouse as it moves across columns, pie slices and other point types with an extent. By default it behaves this way for scatter, bubble and pie series by override in the <code>plotOptions</code> for those series types. </p>
 
@@ -24958,8 +24978,8 @@ class OhlcSeries extends Series {
   /**
    * A configuration object for the tooltip rendering of each single series. Properties are inherited from <a href="#tooltip">tooltip</a>, but only the following properties can be defined on a series level.
    */
-  external JsObject get tooltip;
-  external void set tooltip (JsObject a_tooltip);
+  external Tooltip get tooltip;
+  external void set tooltip (Tooltip a_tooltip);
   /**
    * When a series contains a data array that is longer than this, only one dimensional arrays of numbers,
       or two dimensional arrays with x and y values are allowed. Also, only the first
@@ -25165,8 +25185,8 @@ class OhlcSeriesDataGrouping extends OptionsObject {
 
       <p>For each of these array definitions, the first item is the format used when the active time span is one unit. For instance, if the current data applies to one week, the first item of the week array is used. The second and third items are used when the active time span is more than two units. For instance, if the current data applies to two weeks, the second and third item of the week array are used, and applied to the start and end date of the time span.</p>
    */
-  external JsObject get dateTimeLabelFormats;
-  external void set dateTimeLabelFormats (JsObject a_dateTimeLabelFormats);
+  external DateTimeLabelFormatOptions get dateTimeLabelFormats;
+  external void set dateTimeLabelFormats (DateTimeLabelFormatOptions a_dateTimeLabelFormats);
   /**
    * Enable or disable data grouping.
    */
@@ -25592,8 +25612,8 @@ class OhlcSeriesTooltip extends OptionsObject {
 
       </p>
    */
-  external JsObject get dateTimeLabelFormats;
-  external void set dateTimeLabelFormats (JsObject a_dateTimeLabelFormats);
+  external DateTimeLabelFormatOptions get dateTimeLabelFormats;
+  external void set dateTimeLabelFormats (DateTimeLabelFormatOptions a_dateTimeLabelFormats);
   /**
    * <p>Whether the tooltip should follow the mouse as it moves across columns, pie slices and other point types with an extent. By default it behaves this way for scatter, bubble and pie series by override in the <code>plotOptions</code> for those series types. </p>
 
@@ -25971,8 +25991,8 @@ class PolygonSeries extends Series {
   /**
    * A configuration object for the tooltip rendering of each single series. Properties are inherited from <a class="internal">#tooltip</a>. Overridable properties are <code>headerFormat</code>, <code>pointFormat</code>, <code>yDecimals</code>, <code>xDateFormat</code>, <code>yPrefix</code> and <code>ySuffix</code>.  Unlike other series, in a scatter plot the series.name by default shows in the headerFormat  and poin.x and point.y in the pointFormat.
    */
-  external JsObject get tooltip;
-  external void set tooltip (JsObject a_tooltip);
+  external Tooltip get tooltip;
+  external void set tooltip (Tooltip a_tooltip);
   /**
    * When a series contains a data array that is longer than this, only one dimensional arrays of numbers,
       or two dimensional arrays with x and y values are allowed. Also, only the first
@@ -26344,8 +26364,8 @@ class PolygonSeriesDataGrouping extends OptionsObject {
 
       <p>For each of these array definitions, the first item is the format used when the active time span is one unit. For instance, if the current data applies to one week, the first item of the week array is used. The second and third items are used when the active time span is more than two units. For instance, if the current data applies to two weeks, the second and third item of the week array are used, and applied to the start and end date of the time span.</p>
    */
-  external JsObject get dateTimeLabelFormats;
-  external void set dateTimeLabelFormats (JsObject a_dateTimeLabelFormats);
+  external DateTimeLabelFormatOptions get dateTimeLabelFormats;
+  external void set dateTimeLabelFormats (DateTimeLabelFormatOptions a_dateTimeLabelFormats);
   /**
    * Enable or disable data grouping.
    */
@@ -27267,8 +27287,8 @@ class ScatterSeries extends Series {
   /**
    * A configuration object for the tooltip rendering of each single series. Properties are inherited from <a class="internal">#tooltip</a>. Overridable properties are <code>headerFormat</code>, <code>pointFormat</code>, <code>yDecimals</code>, <code>xDateFormat</code>, <code>yPrefix</code> and <code>ySuffix</code>.  Unlike other series, in a scatter plot the series.name by default shows in the headerFormat  and poin.x and point.y in the pointFormat.
    */
-  external JsObject get tooltip;
-  external void set tooltip (JsObject a_tooltip);
+  external Tooltip get tooltip;
+  external void set tooltip (Tooltip a_tooltip);
   /**
    * When a series contains a data array that is longer than this, only one dimensional arrays of numbers,
       or two dimensional arrays with x and y values are allowed. Also, only the first
@@ -27640,8 +27660,8 @@ class ScatterSeriesDataGrouping extends OptionsObject {
 
       <p>For each of these array definitions, the first item is the format used when the active time span is one unit. For instance, if the current data applies to one week, the first item of the week array is used. The second and third items are used when the active time span is more than two units. For instance, if the current data applies to two weeks, the second and third item of the week array are used, and applied to the start and end date of the time span.</p>
    */
-  external JsObject get dateTimeLabelFormats;
-  external void set dateTimeLabelFormats (JsObject a_dateTimeLabelFormats);
+  external DateTimeLabelFormatOptions get dateTimeLabelFormats;
+  external void set dateTimeLabelFormats (DateTimeLabelFormatOptions a_dateTimeLabelFormats);
   /**
    * Enable or disable data grouping.
    */
@@ -28587,8 +28607,8 @@ class SplineSeries extends Series {
   /**
    * A configuration object for the tooltip rendering of each single series. Properties are inherited from <a href="#tooltip">tooltip</a>, but only the following properties can be defined on a series level.
    */
-  external JsObject get tooltip;
-  external void set tooltip (JsObject a_tooltip);
+  external Tooltip get tooltip;
+  external void set tooltip (Tooltip a_tooltip);
   /**
    * When a series contains a data array that is longer than this, only one dimensional arrays of numbers,
       or two dimensional arrays with x and y values are allowed. Also, only the first
@@ -28960,8 +28980,8 @@ class SplineSeriesDataGrouping extends OptionsObject {
 
       <p>For each of these array definitions, the first item is the format used when the active time span is one unit. For instance, if the current data applies to one week, the first item of the week array is used. The second and third items are used when the active time span is more than two units. For instance, if the current data applies to two weeks, the second and third item of the week array are used, and applied to the start and end date of the time span.</p>
    */
-  external JsObject get dateTimeLabelFormats;
-  external void set dateTimeLabelFormats (JsObject a_dateTimeLabelFormats);
+  external DateTimeLabelFormatOptions get dateTimeLabelFormats;
+  external void set dateTimeLabelFormats (DateTimeLabelFormatOptions a_dateTimeLabelFormats);
   /**
    * Enable or disable data grouping.
    */
@@ -29595,8 +29615,8 @@ class SplineSeriesTooltip extends OptionsObject {
 
       </p>
    */
-  external JsObject get dateTimeLabelFormats;
-  external void set dateTimeLabelFormats (JsObject a_dateTimeLabelFormats);
+  external DateTimeLabelFormatOptions get dateTimeLabelFormats;
+  external void set dateTimeLabelFormats (DateTimeLabelFormatOptions a_dateTimeLabelFormats);
   /**
    * <p>Whether the tooltip should follow the mouse as it moves across columns, pie slices and other point types with an extent. By default it behaves this way for scatter, bubble and pie series by override in the <code>plotOptions</code> for those series types. </p>
 
@@ -30013,8 +30033,8 @@ class XAxis extends OptionsObject {
 
       }</pre>
    */
-  external JsObject get dateTimeLabelFormats;
-  external void set dateTimeLabelFormats (JsObject a_dateTimeLabelFormats);
+  external DateTimeLabelFormatOptions get dateTimeLabelFormats;
+  external void set dateTimeLabelFormats (DateTimeLabelFormatOptions a_dateTimeLabelFormats);
   /**
    * Whether to force the axis to end on a tick. Use this option with the <code>maxPadding</code> option to control the axis end.
    */
@@ -30877,8 +30897,8 @@ class YAxis extends Axis {
 
       }</pre>
    */
-  external JsObject get dateTimeLabelFormats;
-  external void set dateTimeLabelFormats (JsObject a_dateTimeLabelFormats);
+  external DateTimeLabelFormatOptions get dateTimeLabelFormats;
+  external void set dateTimeLabelFormats (DateTimeLabelFormatOptions a_dateTimeLabelFormats);
   /**
    * Whether to force the axis to end on a tick. Use this option with the <code>maxPadding</code> option to control the axis end.
    */
@@ -31687,4 +31707,83 @@ class YAxisTitle extends OptionsObject {
   external void set y (num a_y);
 }
 
+@JS()
+@anonymous
+class RangeSelectorButton {
+  external factory RangeSelectorButton();
 
+  external String get type;
+  external void set type (String a_type);
+
+  external int get count;
+  external void set count (int a_count);
+
+  external String get text;
+  external void set text (String a_color);
+}
+
+@JS()
+@anonymous
+class StyleOptions {
+  external factory StyleOptions();
+
+  external String get color;
+  external void set color (String a_color);
+
+  external String get fontSize;
+  external void set fontSize (String a_fontSize);
+
+  external String get fontWeight;
+  external void set fontWeight (String a_fontWeight);
+
+  external String get fontFamily;
+  external void set fontFamily (String a_fontFamily);
+
+  external int get width;
+  external void set width (int a_width);
+}
+
+@JS()
+@anonymous
+class L10NOptions {
+  external factory L10NOptions();
+
+  external List<String> get months;
+  external void set months (List<String> a_month);
+
+  external List<String> get weekdays;
+  external void set weekdays (List<String> a_weekdays);
+
+  external List<String> get shortMonths;
+  external void set shortMonths (List<String> a_shortMonths);
+
+  external String get rangeSelectorFrom;
+  external void set rangeSelectorFrom (String a_rangeSelectorFrom);
+
+  external String get rangeSelectorTo;
+  external void set rangeSelectorTo (String a_rangeSelectorTo);
+
+  external String get rangeSelectorZoom;
+  external void set rangeSelectorZoom (String a_rangeSelectorZoom);
+
+  external String get loading;
+  external void set loading (String a_loading);
+}
+
+@JS()
+@anonymous
+class DateTimeLabelFormatOptions {
+  external factory DateTimeLabelFormatOptions();
+
+  external dynamic get day;
+  external void set day (dynamic a_day);
+
+  external dynamic get week;
+  external void set week (dynamic a_week);
+
+  external dynamic get month;
+  external void set month (dynamic a_month);
+
+  external dynamic get year;
+  external void set year (dynamic a_year);
+}
