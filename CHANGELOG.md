@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.1.2
+
+- Changed package name.
+
 ## 0.1.1
 
 - Improved README.
