@@ -1,5 +1,5 @@
 name: instrumentisto_highstock
-version: 0.1.2
+version: 0.1.4
 description: Highstock API wrapped via JS interop (js package).
 author: Instrumentisto Team <developer@instrumentisto.com>
 homepage: https://github.com/instrumentisto/highstock

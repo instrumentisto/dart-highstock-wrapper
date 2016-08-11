@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.1.4
+
+- Synced dart and github release versions.
+
 ## 0.1.3
 
 - Changed library name.
