@@ -1,6 +1,6 @@
 /// Highstock chart wrapper library.
 @JS()
-library highstock;
+library instrumentisto_highstock;
 
 import 'dart:html' hide Navigator;
 import 'dart:js';

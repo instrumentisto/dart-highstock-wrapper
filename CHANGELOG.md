@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.1.3
+
+- Changed library name.
+
 ## 0.1.2
 
 - Changed package name.
