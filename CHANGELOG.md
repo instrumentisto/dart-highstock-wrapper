@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.1.5
+
+- Changed package name.
+
 ## 0.1.4
 
 - Synced dart and github release versions.
